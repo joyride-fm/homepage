@@ -1,3 +1,5 @@
+import { main } from "./output/Joyride.Homepage.Main";
+main();
 console.log("     ____.                    .__    .___");
 console.log("    |    | ____ ___.__._______|__| __| _/____");
 console.log("    |    |/  _ <   |  |\\_  __ \\  |/ __ |/ __ \\ ");
