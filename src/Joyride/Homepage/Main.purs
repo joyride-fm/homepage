@@ -17,7 +17,7 @@ type Index = """<div
         <article class="prose lg:prose-xl">
           <h1 class="">Hi 👋</h1>
           <p class="">
-            We're <b>joyride.fm</b>. We're a small game studio with roots in
+            We're <b>joyride.fm</b>, a small game studio with roots in
             Japan 🇯🇵, Finland 🇫🇮, and the Philippines 🇵🇭.
           </p>
           <p class="">
