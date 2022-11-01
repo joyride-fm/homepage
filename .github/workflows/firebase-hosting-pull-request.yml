@@ -33,6 +33,17 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
+      - name: Cache purescript dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            .spago
+            ${{ env.spago_global_cache }}
+          key: >-
+            ${{ hashFiles('package-lock.json') }}-
+            ${{ hashFiles('spago.dhall') }}-
+            ${{ hashFiles('packages.dhall') }}
       - run: pnpm i && pnpm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
