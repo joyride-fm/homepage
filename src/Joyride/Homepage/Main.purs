@@ -33,5 +33,5 @@ main = do
         routing.event
     )
   _ <- matchesWith (parse route) (curry routing.push)
-  routing.push (Nothing /\ Nyaa)
+  routing.push (Nothing /\ Home)
   pure unit
