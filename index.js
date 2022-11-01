@@ -1,4 +1,4 @@
-import { main } from "./output/Joyride.Homepage.Main";
+import { main } from "PureScript";
 main();
 console.log("     ____.                    .__    .___");
 console.log("    |    | ____ ___.__._______|__| __| _/____");
