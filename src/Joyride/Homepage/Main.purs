@@ -2,46 +2,36 @@ module Joyride.Homepage.Main where
 
 import Prelude
 
-import Deku.Core (Nut)
-import Deku.Pursx ((~~))
+import Data.Maybe (Maybe(..))
+import Data.Tuple (curry, snd)
+import Data.Tuple.Nested ((/\))
+import Debug (spy)
+import Deku.Control (switcher)
 import Deku.Toplevel (runInBody)
 import Effect (Effect)
-import Type.Proxy (Proxy(..))
-
-type Index = """<div
-      class="min-h-screen bg-gray-50 py-8 flex flex-col justify-center relative overflow-hidden lg:py-12"
-    >
-      <div
-        class="relative w-full px-6 py-12 bg-white shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5 md:max-w-3xl md:mx-auto lg:max-w-4xl lg:pt-16 lg:pb-28"
-      >
-        <article class="prose lg:prose-xl">
-          <h1 class="">Hi 👋</h1>
-          <p class="">
-            We're <b>joyride.fm</b>, a small game studio with roots in
-            Japan 🇯🇵, Finland 🇫🇮, and the Philippines 🇵🇭.
-          </p>
-          <p class="">
-            We're on a mission to build multi-player rhythm games. While we're
-            keeping some classics like judgement lines and tile tapping, we're
-            introducing new mechanics like multi-dimensional charts,
-            gyroscope-based navigation and dynamic music generation to make
-            rhythm gaming as social and fun as jamming with friends.
-          </p>
-          <p class="">
-            Want to know what we're up to these days? Join our
-            <a
-              class=""
-              href="https://discord.gg/gUAPQAtbS8"
-              target="_blank"
-              >Discord</a>! And if have an itch that only gaming will scratch, play our first
-            game, DJ Monad's <a href="https://mmm.joyride.fm" target="_blank">Mystery Mansion Madness</a>!
-          </p>
-        </article>
-      </div>
-    </div>"""
-
-indexPage :: Nut
-indexPage = (Proxy :: Proxy Index) ~~ {}
+import FRP.Event (create)
+import Joyride.Homepage.GamePage.MMM (mmm)
+import Joyride.Homepage.GamePage.Nyaa (nyaa)
+import Joyride.Homepage.Index (indexPage)
+import Joyride.Homepage.Routing (Route(..), route)
+import Routing.Duplex (parse)
+import Routing.Hash (getHash, matchesWith, setHash)
 
 main :: Effect Unit
-main = runInBody indexPage
+main = do
+  h <- getHash
+  when (h == "") do
+    setHash "/"
+  routing <- create
+  runInBody
+    ( switcher
+        ( snd >>> case _ of
+            Home -> indexPage
+            MMM -> mmm
+            Nyaa -> nyaa
+        )
+        routing.event
+    )
+  _ <- matchesWith (parse route) (curry routing.push)
+  routing.push (Nothing /\ Nyaa)
+  pure unit

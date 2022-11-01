@@ -7,8 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        'creepster': ['Creepster', 'cursive'],
+      backgroundImage: {
+        'mansion': "url('/assets/mansion.webp')",
+        'cat': "url('/assets/cat.webp')",
       },
     },  },
   plugins: [

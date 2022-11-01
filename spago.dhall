@@ -6,6 +6,7 @@
   , "bolson"
   , "control"
   , "convertable-options"
+  , "debug"
   , "deku"
   , "effect"
   , "fast-vect"
